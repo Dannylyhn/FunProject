@@ -2,6 +2,7 @@
 {
     public class CacheDTO
     {
-        public string CacheKey { get; set; }
+        public string Key { get; set; }
+        public string Payload { get; set; }
     }
 }

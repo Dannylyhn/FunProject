@@ -1,3 +1,5 @@
+using CacheService.Models;
+using CacheService.Services;
 using Microsoft.AspNetCore.Mvc;
 
 namespace CacheService.Controllers
@@ -7,24 +9,44 @@ namespace CacheService.Controllers
     public class CacheServiceController : ControllerBase
     {
         private readonly ILogger<CacheServiceController> _logger;
+        private readonly ICacheService _cacheService;
 
-        public CacheServiceController(ILogger<CacheServiceController> logger)
+        public CacheServiceController(ILogger<CacheServiceController> logger,
+            ICacheService cacheService)
         {
             _logger = logger;
+            _cacheService = cacheService;
         }
 
-        [HttpGet("GetCachedValue")]
-        public async Task<IActionResult> GetCache()
+        [HttpPost("GetCache")]
+        public async Task<IActionResult> GetCache([FromBody] string key)
         {
-            
-            return Ok("Hello world");
+            try
+            {
+                var cache = await _cacheService.GetCache(key);
+                if(cache == null) return NotFound();
+                return Ok(cache);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error with retriving cache based on key: {@0}", key);
+                return BadRequest(ex.Message);
+            }
         }
 
-        [HttpPost("SaveNewCache")]
-        public async Task<IActionResult> SaveNewCache()
+        [HttpPost("SaveCache")]
+        public async Task<IActionResult> SaveCache(CacheDTO request)
         {
-
-            return Ok("Hello world");
+            try
+            {
+                await _cacheService.SetCache(request.Key, request.Payload);
+                return Ok();
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error setting new cache based on request: {@0}", request);
+                return BadRequest(ex.Message);
+            }
         }
     }
 }
