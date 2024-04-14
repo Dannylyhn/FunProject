@@ -20,6 +20,17 @@ services:
 #    volumes:
 #      - mssql_data:/var/opt/mssql
 
+  cache-service-api:
+    build: 
+      context: .
+      dockerfile: CacheService.API/Dockerfile
+    environment:
+      Redis__Url: redis
+    ports:
+      - "1433:1433"
+    depends_on: 
+      - redis
+
 #volumes:
 #  redis_data:
 #  mssql_data

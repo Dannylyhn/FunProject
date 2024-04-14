@@ -1,25 +1,21 @@
 #See https://aka.ms/customizecontainer to learn how to customize your debug container and how Visual Studio uses this Dockerfile to build your images for faster debugging.
-
 FROM mcr.microsoft.com/dotnet/aspnet:8.0 AS base
-USER app
 WORKDIR /app
-EXPOSE 8080
-EXPOSE 8081
 
 FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
 ARG BUILD_CONFIGURATION=Release
 WORKDIR /src
-COPY ["CacheService.csproj", "."]
-RUN dotnet restore "./CacheService.csproj"
+COPY ["CacheService.API/CacheService.API.csproj", "CacheService.API/"]
+RUN dotnet restore "CacheService.API/CacheService.API.csproj"
 COPY . .
-WORKDIR "/src/."
-RUN dotnet build "./CacheService.csproj" -c $BUILD_CONFIGURATION -o /app/build
+WORKDIR "/src/CacheService.API"
+RUN dotnet build "CacheService.API.csproj" -c $BUILD_CONFIGURATION -o /app/build
 
 FROM build AS publish
 ARG BUILD_CONFIGURATION=Release
-RUN dotnet publish "./CacheService.csproj" -c $BUILD_CONFIGURATION -o /app/publish /p:UseAppHost=false
+RUN dotnet publish "CacheService.API.csproj" -c $BUILD_CONFIGURATION -o /app/publish /p:UseAppHost=false
 
 FROM base AS final
 WORKDIR /app
 COPY --from=publish /app/publish .
-ENTRYPOINT ["dotnet", "CacheService.dll"]
+ENTRYPOINT ["dotnet", "CacheService.API.dll"]
