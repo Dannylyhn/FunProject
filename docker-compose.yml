@@ -6,8 +6,6 @@ services:
     container_name: redis
     ports:
       - "6379:6379"
-#    volumes:
-#      - redis_data:/data
 
   mssql:
     image: mcr.microsoft.com/mssql/server:2022-CU12-ubuntu-22.04
@@ -17,8 +15,6 @@ services:
       ACCEPT_EULA: "Y"
     ports:
       - "1433:1433"
-#    volumes:
-#      - mssql_data:/var/opt/mssql
 
   cache-service-api:
     build: 
@@ -31,6 +27,23 @@ services:
     depends_on: 
       - redis
 
-#volumes:
-#  redis_data:
-#  mssql_data
+  webshop-service-api:
+    build: 
+      context: .
+      dockerfile: CacheService.API/Dockerfile
+    environment:
+      - RabbitMQ__Host=rabbitmq 
+      - RabbitMQ__Username=guest 
+      - RabbitMQ__Password=guest 
+    depends_on:
+      - rabbitmq 
+
+  rabbitmq:
+    image: rabbitmq:management 
+    ports:
+      - "5672:5672" 
+      - "15672:15672"
+    environment:
+      - RABBITMQ_DEFAULT_USER=guest
+      - RABBITMQ_DEFAULT_PASS=guest
+

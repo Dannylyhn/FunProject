@@ -5,6 +5,13 @@ VisualStudioVersion = 17.9.34723.18
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CacheService.API", "CacheService.API.csproj", "{CF0E4156-C39A-425D-87CF-162E5F8CEFC7}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebshopService.API", "..\WebShopService.API\WebshopService.API.csproj", "{7AB359E2-BC7B-415C-BB25-13F30AD22DA7}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{835E3D4B-EE48-4C02-9160-9ECB0FCBB437}"
+	ProjectSection(SolutionItems) = preProject
+		..\docker-compose.yml = ..\docker-compose.yml
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +22,10 @@ Global
 		{CF0E4156-C39A-425D-87CF-162E5F8CEFC7}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{CF0E4156-C39A-425D-87CF-162E5F8CEFC7}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{CF0E4156-C39A-425D-87CF-162E5F8CEFC7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7AB359E2-BC7B-415C-BB25-13F30AD22DA7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7AB359E2-BC7B-415C-BB25-13F30AD22DA7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7AB359E2-BC7B-415C-BB25-13F30AD22DA7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7AB359E2-BC7B-415C-BB25-13F30AD22DA7}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
