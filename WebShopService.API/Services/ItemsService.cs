@@ -5,14 +5,14 @@ namespace WebshopService.API.Services
 {
     public class ItemsService : IItemsService
     {
-        private readonly IBus _bus;
-        public ItemsService(IBus bus) 
+        private readonly IPublishEndpoint _publishEndpoint;
+        public ItemsService(IPublishEndpoint publishEndpoint) 
         { 
-            _bus = bus;
+            _publishEndpoint = publishEndpoint;
         }
         public async Task<Guid> AddItem(Item item)
         {
-            await _bus.Publish(item);
+            await _publishEndpoint.Publish(new Message { Id = new Guid(), Body = "Testing", Title = "Testtitle"});
             return item.Id;
         }
 

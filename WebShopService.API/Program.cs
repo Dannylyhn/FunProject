@@ -19,30 +19,28 @@ builder.Services.AddScoped<IItemsService, ItemsService>();
 builder.Services.AddMassTransit(x =>
 {
     x.AddConsumer<MessageConsumer>();
-
     x.UsingRabbitMq((context, cfg) =>
     {
+        var messageQueueName = "message-queue";
+        var messageExchangeName = "message-exchange";
+
         cfg.Host("localhost", "/", h =>
         {
             h.Username("guest");
             h.Password("guest");
         });
 
-        cfg.ReceiveEndpoint("message-queue", e =>
+        cfg.ReceiveEndpoint(messageQueueName, e =>
         {
-            e.Bind("message-exchange", x =>
+            e.Bind(messageExchangeName, x =>
             {
-                x.ExchangeType = "direct";
+                x.ExchangeType = ExchangeType.Direct;
             });
-            e.Bind<Message>();
             e.ConfigureConsumer<MessageConsumer>(context);
-            //e.Consumer<MessageConsumer>();
         });
-
-        cfg.ConfigureEndpoints(context);
-
-
     });
+
+    // Configure other endpoints if needed
 });
 
 var app = builder.Build();
